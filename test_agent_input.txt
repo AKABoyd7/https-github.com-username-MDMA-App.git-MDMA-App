@@ -1,0 +1,2 @@
+Hello! Can you tell me a fun fact?
+exit
