@@ -1,0 +1,152 @@
+# AlphaEdge AINV - Git Ignore
+# Copyright © 2025 AlphaEdge AINV
+
+# ============================================
+# Sensitive Data (NEVER COMMIT!)
+# ============================================
+.env
+*.key
+*.pem
+*.p12
+credentials.json
+secrets/
+api_keys.txt
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ============================================
+# Virtual Environments
+# ============================================
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+conda_env/
+alphaedge/
+
+# ============================================
+# AI Models & Cache (ไฟล์ใหญ่)
+# ============================================
+models_cache/
+*.gguf
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.onnx
+*.engine
+*.trt
+*.plan
+huggingface_cache/
+transformers_cache/
+
+# ============================================
+# Vector Database
+# ============================================
+chroma_db/
+*.chromadb
+vectordb/
+embeddings_cache/
+
+# ============================================
+# Logs & Temporary Files
+# ============================================
+logs/
+*.log
+*.log.*
+temp/
+tmp/
+*.tmp
+.cache/
+
+# ============================================
+# IDE & Editors
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================================
+# Jupyter Notebooks
+# ============================================
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ============================================
+# Testing
+# ============================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# ============================================
+# CUDA & TensorRT
+# ============================================
+*.cubin
+*.fatbin
+*.cuda
+*.trt
+tensorrt_engines/
+
+# ============================================
+# Windows
+# ============================================
+*.exe
+*.dll
+*.bat
+*.cmd
+
+# ============================================
+# macOS
+# ============================================
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ============================================
+# Linux
+# ============================================
+*~
+.directory
+
+# ============================================
+# Project Specific
+# ============================================
+test_outputs/
+debug/
+experiments/
+backups/
+*.bak
