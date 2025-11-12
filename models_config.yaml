@@ -1,0 +1,151 @@
+# AlphaEdge AINV - Multi-Model Configuration
+# Copyright © 2025 AlphaEdge AINV
+
+# Local LLM Models (LM Studio)
+local_models:
+  llama-3.3-70B:
+    path: /models/llama3-3-70B.Q4_K_M.gguf
+    engine: lm-studio
+    endpoint: http://localhost:1234/v1
+    use_case: [reasoning, general, business]
+    max_tokens: 8192
+    temperature: 0.7
+
+  qwen-2.5-coder-32B:
+    path: /models/qwen-2.5-coder-32B.Q5_K_M.gguf
+    engine: lm-studio
+    endpoint: http://localhost:1234/v1
+    use_case: [code, technical, debugging]
+    max_tokens: 8192
+    temperature: 0.3
+
+  llama-3.1-8B:
+    path: /models/llama3-1-8B.Q4_K_M.gguf
+    engine: lm-studio
+    endpoint: http://localhost:1234/v1
+    use_case: [fast, lightweight, everyday]
+    max_tokens: 4096
+    temperature: 0.7
+
+  mistral-7B:
+    path: /models/mistral-7B.Q4_K_M.gguf
+    engine: lm-studio
+    endpoint: http://localhost:1234/v1
+    use_case: [fast, lightweight]
+    max_tokens: 4096
+    temperature: 0.7
+
+# Cloud Models (NVIDIA)
+cloud_models:
+  nemotron-3-43B:
+    engine: nvidia-cloud
+    endpoint: https://integrate.api.nvidia.com/v1
+    model_name: nvidia/nemotron-3-43b-instruct
+    api_key_env: NVIDIA_API_KEY
+    use_case: [advanced_reasoning, business, analytics, rag]
+    max_tokens: 4096
+    temperature: 0.7
+
+  nemotron-3-22B:
+    engine: nvidia-cloud
+    endpoint: https://integrate.api.nvidia.com/v1
+    model_name: nvidia/nemotron-3-22b-instruct
+    api_key_env: NVIDIA_API_KEY
+    use_case: [reasoning, business]
+    max_tokens: 4096
+    temperature: 0.7
+
+# Multimodal Models
+multimodal_models:
+  nv-clip:
+    engine: nvidia-cloud
+    endpoint: https://integrate.api.nvidia.com/v1
+    model_name: nvidia/nv-clip-vit-h-14
+    api_key_env: NVIDIA_API_KEY
+    use_case: [vision, embedding, image_search, ocr_enhancement]
+    modality: [image, text]
+
+  clip-local:
+    engine: local
+    model_name: openai/clip-vit-large-patch14
+    use_case: [vision, embedding]
+    modality: [image, text]
+
+# Voice Models
+voice_models:
+  whisper:
+    engine: local
+    model_name: openai/whisper-large-v3
+    use_case: [stt, transcription]
+    language: [en, th, multi]
+
+  piper-tts:
+    engine: local
+    model_name: rhasspy/piper
+    voice: en_US-lessac-medium
+    use_case: [tts, voice_output]
+
+# OCR Models
+ocr_models:
+  paddleocr:
+    engine: local
+    use_case: [ocr, text_extraction]
+    language: [en, th, ch]
+
+  tesseract:
+    engine: local
+    use_case: [ocr, document_processing]
+    language: [eng, tha]
+
+# Routing Rules
+routing:
+  code:
+    - qwen-2.5-coder-32B
+    - llama-3.3-70B
+
+  business:
+    - nemotron-3-43B
+    - llama-3.3-70B
+
+  reasoning:
+    - nemotron-3-43B
+    - llama-3.3-70B
+
+  fast:
+    - llama-3.1-8B
+    - mistral-7B
+
+  vision:
+    - nv-clip
+    - clip-local
+
+  voice_input:
+    - whisper
+
+  voice_output:
+    - piper-tts
+
+# Default Model Selection
+defaults:
+  llm: llama-3.3-70B
+  code: qwen-2.5-coder-32B
+  vision: nv-clip
+  voice_input: whisper
+  voice_output: piper-tts
+  ocr: paddleocr
+  embedding: nv-clip
+
+# Performance Settings
+performance:
+  batch_size: 1
+  concurrent_requests: 4
+  timeout: 300
+  retry_attempts: 3
+  cache_enabled: true
+  cache_ttl: 3600
+
+# Logging
+logging:
+  level: INFO
+  file: logs/models.log
+  format: "[%(asctime)s] %(levelname)s - %(message)s"

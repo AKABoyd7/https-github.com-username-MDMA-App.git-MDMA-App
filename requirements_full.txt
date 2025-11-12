@@ -1,0 +1,96 @@
+# AlphaEdge AINV - Full Enterprise Platform Requirements
+# Python 3.10+ required
+# Copyright © 2025 AlphaEdge AINV
+
+# ===== Core MCP =====
+mcp>=1.0.0
+anthropic>=0.18.0
+
+# ===== Server Framework =====
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+sse-starlette>=1.6.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+websockets>=11.0.0
+
+# ===== Web UI =====
+gradio>=4.0.0
+
+# ===== Environment & Config =====
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
+
+# ===== AI/ML APIs =====
+openai>=1.3.0
+anthropic>=0.18.0
+requests>=2.31.0
+aiohttp>=3.9.0
+
+# ===== GPU Monitoring =====
+nvidia-ml-py>=12.535.0
+pynvml>=11.5.0
+
+# ===== System Monitoring =====
+psutil>=5.9.0
+
+# ===== File Operations =====
+aiofiles>=23.0.0
+
+# ===== Scientific Computing =====
+numpy>=1.24.0
+pillow>=10.0.0
+
+# ===== NVIDIA Integration =====
+# For NV-CLIP and Nemotron cloud API (API key required)
+
+# ===== Local Models =====
+# Whisper STT
+faster-whisper>=0.10.0
+# Alternative: openai-whisper>=20230918
+
+# CLIP Vision
+transformers>=4.35.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# ===== OCR =====
+paddleocr>=2.7.0
+# Alternative: pytesseract>=0.3.10
+
+# ===== RAG & Vector Database =====
+chromadb>=0.4.0
+sentence-transformers>=2.2.0
+
+# ===== Optional: Advanced Features =====
+# LangChain for advanced RAG
+langchain>=0.1.0
+langchain-community>=0.0.10
+
+# ===== Development Tools =====
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.5.0
+
+# ===== Optional: GPU Benchmarking =====
+# cupy-cuda12x>=12.0.0  # Uncomment for CuPy operations
+
+# ===== Notes =====
+# 1. Install PyTorch with CUDA:
+#    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+#
+# 2. PaddleOCR GPU support:
+#    pip install paddlepaddle-gpu
+#
+# 3. For Piper TTS, download binary separately:
+#    https://github.com/rhasspy/piper/releases
+#
+# 4. NVIDIA API key required for Nemotron and NV-CLIP:
+#    Set NVIDIA_API_KEY in .env file
+#
+# 5. Recommended: Install in virtual environment
+#    python -m venv venv
+#    venv\Scripts\activate  (Windows)
+#    pip install -r requirements_full.txt
