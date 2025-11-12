@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "alphaedge-ainv": {
+      "command": "G:\\AlphaEdge_AINV\\venv\\Scripts\\python.exe",
+      "args": [
+        "G:\\AlphaEdge_AINV\\mcp_server\\server.py"
+      ],
+      "env": {
+        "NVIDIA_API_KEY": "nvapi-your-key-here",
+        "LM_STUDIO_URL": "http://localhost:1234/v1",
+        "PROJECT_ROOT": "G:\\AlphaEdge_AINV",
+        "DEBUG_MODE": "false"
+      }
+    }
+  }
+}
