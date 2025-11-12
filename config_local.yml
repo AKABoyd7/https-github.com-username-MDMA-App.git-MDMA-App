@@ -1,0 +1,37 @@
+# Project Jareth v1 - Local Configuration
+# ================================================
+
+# Deployment mode
+mode: local
+
+# AI Model Configuration
+model: meta-llama-3.3-70b-instruct
+
+# GPU Backend
+gpu_backend: cuda
+device: "NVIDIA RTX 3090 Ti"
+
+# NVIDIA API Token (for cloud fallback)
+# SECURITY WARNING: Move to environment variable in production!
+nvapi_token: "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"
+
+# Auto-healing Configuration
+auto_heal: true
+heal_cpu_threshold: 90
+heal_memory_threshold: 90
+
+# Debug & Development
+debug_tools: true
+log_level: info
+
+# API Server Configuration
+api_host: "0.0.0.0"
+api_port: 8500
+
+# Ollama Configuration
+ollama_host: "http://localhost:11434"
+ollama_timeout: 60
+
+# Conversation Settings
+default_system_message: "You are Jareth AiNV, an advanced AI assistant. You are helpful, knowledgeable, and conversational."
+max_conversation_history: 100

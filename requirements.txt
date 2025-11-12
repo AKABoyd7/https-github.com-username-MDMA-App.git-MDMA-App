@@ -1,3 +1,26 @@
-langchain
-langgraph
-langchain-community
+# Project Jareth v1 - Dependencies
+# Combined FastAPI + Langgraph Architecture
+
+# Web Framework & Server
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# System Monitoring & Utils
+psutil>=5.9.0
+requests>=2.31.0
+
+# AI & LLM Framework
+langchain>=0.1.0
+langgraph>=0.0.30
+langchain-community>=0.0.10
+
+# GPU & PyTorch
+torch>=2.0.0
+
+# Configuration
+pyyaml>=6.0.0
+
+# Optional: Production Enhancements
+# python-multipart  # For file uploads
+# python-jose[cryptography]  # For JWT authentication
+# passlib[bcrypt]  # For password hashing
