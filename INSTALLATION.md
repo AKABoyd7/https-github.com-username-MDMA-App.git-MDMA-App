@@ -221,7 +221,37 @@ pip install -r requirements_full.txt
 # - ChromaDB
 # - PaddleOCR
 # - Faster-whisper
+# - TensorRT (CUDA-X)
 # - และอื่นๆ อีกมาก
+```
+
+### C2. ติดตั้ง CUDA-X (Optional แต่แนะนำ!)
+
+#### TensorRT (เร่ง inference 2-5x)
+
+```powershell
+# ติดตั้งพร้อม requirements_full.txt แล้ว
+# หรือติดตั้งแยก:
+pip install tensorrt pycuda
+```
+
+#### RAPIDS (GPU DataFrame - เร็วกว่า pandas 10-50x)
+
+```powershell
+# วิธีที่ 1: ใช้ conda (แนะนำ)
+conda install -c rapidsai -c conda-forge -c nvidia rapids=25.02 python=3.11 cuda-version=12.1
+
+# วิธีที่ 2: ใช้ pip
+pip install --extra-index-url=https://pypi.nvidia.com cudf-cu12 cuml-cu12 cugraph-cu12
+
+# ใช้เวลา 10-15 นาที
+```
+
+#### NCCL (Multi-GPU Support)
+
+```powershell
+# มากับ PyTorch อยู่แล้ว ไม่ต้องติดตั้งเพิ่ม
+# ใช้ได้เลยถ้ามี GPU 2 ตัวขึ้นไป
 ```
 
 ### D. ติดตั้ง PaddlePaddle (สำหรับ OCR)

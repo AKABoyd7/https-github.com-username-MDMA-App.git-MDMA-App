@@ -77,6 +77,20 @@ mypy>=1.5.0
 # ===== Optional: GPU Benchmarking =====
 # cupy-cuda12x>=12.0.0  # Uncomment for CuPy operations
 
+# ===== CUDA-X Acceleration (NEW!) =====
+# TensorRT (Model Optimization - 2-5x faster inference)
+tensorrt>=8.6.0
+pycuda>=2024.1
+
+# RAPIDS (GPU DataFrame & ML - 10-50x faster than pandas)
+# Install RAPIDS separately:
+# pip install --extra-index-url=https://pypi.nvidia.com cudf-cu12 cuml-cu12 cugraph-cu12
+# Or use conda:
+# conda install -c rapidsai -c conda-forge -c nvidia rapids=25.02 python=3.11 cuda-version=12.1
+
+# NCCL (Multi-GPU) - Included with PyTorch CUDA build
+# No additional installation required
+
 # ===== Notes =====
 # 1. Install PyTorch with CUDA:
 #    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
