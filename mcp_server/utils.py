@@ -49,8 +49,9 @@ def setup_logging(log_file: Optional[str] = None, level: int = logging.INFO):
     # Clear existing handlers
     logger.handlers.clear()
 
-    # Console handler (simple format)
-    console_handler = logging.StreamHandler()
+    # Console handler (simple format) - MUST use stderr for MCP!
+    import sys
+    console_handler = logging.StreamHandler(sys.stderr)
     console_handler.setLevel(level)
     console_handler.setFormatter(simple_formatter)
     logger.addHandler(console_handler)

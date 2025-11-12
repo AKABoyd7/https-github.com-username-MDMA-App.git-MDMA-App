@@ -18,8 +18,9 @@ try:
     from mcp.server.stdio import stdio_server
     from mcp.types import Tool, TextContent
 except ImportError:
-    print("ERROR: MCP SDK not installed. Install with: pip install mcp")
-    print("Falling back to basic server mode...")
+    import sys
+    print("ERROR: MCP SDK not installed. Install with: pip install mcp", file=sys.stderr)
+    print("Falling back to basic server mode...", file=sys.stderr)
     Server = None
     stdio_server = None
 
