@@ -26,7 +26,7 @@ except ImportError:
 # Local imports
 from .config import settings, validate_configuration
 from .utils import setup_logging, Timer
-from .tools import local_models, nvidia_api, gpu_monitor, system, memory
+from .tools import local_models, nvidia_api, gpu_monitor, system, memory, windows_management
 
 # Setup logging
 setup_logging(level=logging.INFO if not settings.DEBUG_MODE else logging.DEBUG)
@@ -66,7 +66,8 @@ class AlphaEdgeMCPServer:
             ("NVIDIA API", nvidia_api),
             ("GPU Monitor", gpu_monitor),
             ("System", system),
-            ("Memory", memory)
+            ("Memory", memory),
+            ("Windows Management", windows_management)
         ]
 
         for category, module in tool_modules:
