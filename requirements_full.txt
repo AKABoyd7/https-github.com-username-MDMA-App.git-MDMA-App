@@ -44,8 +44,8 @@ pillow>=10.0.0
 # ===== NVIDIA Integration =====
 # For NV-CLIP and Nemotron cloud API (API key required)
 
-# NVIDIA NeMo Agent Toolkit (Agentic AI Framework)
-nemo-agent-toolkit>=1.0.0
+# NVIDIA NeMo (ติดตั้งแยก - ถ้าต้องการ)
+# pip install nemo_toolkit[all]
 
 # ===== Local Models =====
 # Whisper STT

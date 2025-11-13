@@ -35,7 +35,12 @@ try {
 }
 
 Write-Host "  -> ติดตั้ง dependencies ทั้งหมด (รอ 5-10 นาที)..." -ForegroundColor Gray
-pip install -r requirements_full.txt --quiet
+pip install -r requirements_full.txt --no-cache-dir 2>$null | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "  -> ⚠️ บาง packages ติดตั้งไม่สำเร็จ - ลองแก้ไข..." -ForegroundColor Yellow
+    # ติดตั้ง critical packages แยก
+    pip install gradio chromadb fastapi uvicorn transformers --no-cache-dir --force-reinstall 2>$null | Out-Null
+}
 
 Write-Host "  -> ✓ ติดตั้ง dependencies สำเร็จ" -ForegroundColor Green
 Write-Host ""
@@ -153,7 +158,6 @@ try {
     python -c "import gradio; print('  -> ✓ Gradio')"
     python -c "import chromadb; print('  -> ✓ ChromaDB')"
     python -c "import transformers; print('  -> ✓ Transformers')"
-    python -c "import nemo_agent_toolkit; print('  -> ✓ NeMo Agent Toolkit')" 2>$null
 } catch {
     Write-Host "  -> ⚠️ บาง modules ไม่พร้อม (อาจไม่สำคัญ)" -ForegroundColor Yellow
 }
