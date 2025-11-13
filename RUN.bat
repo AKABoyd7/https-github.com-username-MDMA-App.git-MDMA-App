@@ -1,59 +1,35 @@
 @echo off
-echo ============================================
-echo AlphaEdge AINV - Auto Fixer and Launcher
-echo ============================================
+echo ================================================
+echo   AlphaEdge AINV - One-Click Launcher
+echo ================================================
 echo.
 
-REM Find conda
-set CONDA_PATH=
-if exist "C:\Users\admin\miniconda3\Scripts\conda.exe" set CONDA_PATH=C:\Users\admin\miniconda3
-if exist "C:\ProgramData\miniconda3\Scripts\conda.exe" set CONDA_PATH=C:\ProgramData\miniconda3
-if exist "C:\miniconda3\Scripts\conda.exe" set CONDA_PATH=C:\miniconda3
-if exist "%USERPROFILE%\miniconda3\Scripts\conda.exe" set CONDA_PATH=%USERPROFILE%\miniconda3
+cd /d %~dp0
 
-if "%CONDA_PATH%"=="" (
-    echo ERROR: Conda not found
-    echo Install from: https://docs.conda.io/en/latest/miniconda.html
+REM Find Python 3.11
+set PY311=C:\Users\admin\AppData\Local\Programs\Python\Python311\python.exe
+
+if not exist "%PY311%" (
+    echo ERROR: Python 3.11 not found
+    echo.
+    echo Download: https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe
+    echo Install it, then run this again.
     pause
     exit /b 1
 )
 
-echo Found conda: %CONDA_PATH%
-echo.
-
-REM Activate environment
-echo Activating alphaedge environment...
-call "%CONDA_PATH%\Scripts\activate.bat" alphaedge
-
-REM Check Python version
-for /f "tokens=2" %%i in ('python --version 2^>^&1') do set PY_VER=%%i
-echo Python version: %PY_VER%
-
-REM Check if gradio installed
-python -c "import gradio" 2>nul
-if errorlevel 1 (
-    echo.
-    echo Installing missing packages...
-    pip install fastapi uvicorn gradio==4.44.0 chromadb==0.4.24 langchain langchain-community transformers sentence-transformers faster-whisper openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil --quiet
-    echo Done.
+REM Create venv if needed
+if not exist "venv311" (
+    echo Creating environment...
+    %PY311% -m venv venv311
+    call venv311\Scripts\activate.bat
+    python -m pip install --upgrade pip
+    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+    pip install fastapi uvicorn gradio chromadb langchain langchain-community transformers sentence-transformers faster-whisper tensorrt pycuda openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil
 )
 
-REM Check torch
-python -c "import torch" 2>nul
-if errorlevel 1 (
-    echo.
-    echo Installing PyTorch...
-    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121 --quiet
-    echo Done.
-)
-
-echo.
-echo ============================================
-echo   Starting AlphaEdge AINV...
-echo ============================================
-echo.
-
-cd /d G:\AlphaEdge_AINV
+REM Activate and run
+call venv311\Scripts\activate.bat
 python master_launcher.py --full
 
 pause
