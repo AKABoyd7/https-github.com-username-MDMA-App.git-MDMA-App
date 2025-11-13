@@ -1,4 +1,9 @@
 import os
+import warnings
+# Suppress compatibility warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 from typing import TypedDict, Annotated
 from langchain_community.chat_models import ChatOllama
 from langchain_core.messages import HumanMessage, BaseMessage, SystemMessage
