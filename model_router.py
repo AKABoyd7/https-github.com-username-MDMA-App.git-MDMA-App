@@ -199,23 +199,44 @@ class ModelRouter:
             messages.append({"role": "system", "content": context})
         messages.append({"role": "user", "content": query})
 
-        # Route to appropriate handler
-        if model_info['type'] == 'local':
-            response = await self.chat_local(
-                model_info['name'],
-                messages,
-                temperature,
-                max_tokens
-            )
-        elif model_info['type'] == 'cloud':
-            response = await self.chat_cloud(
-                model_info['name'],
-                messages,
-                temperature,
-                max_tokens
-            )
-        else:
-            raise ValueError(f"Unsupported model type: {model_info['type']}")
+        # Route to appropriate handler with fallback
+        try:
+            if model_info['type'] == 'local':
+                response = await self.chat_local(
+                    model_info['name'],
+                    messages,
+                    temperature,
+                    max_tokens
+                )
+            elif model_info['type'] == 'cloud':
+                # Try cloud, fallback to local if it fails
+                try:
+                    response = await self.chat_cloud(
+                        model_info['name'],
+                        messages,
+                        temperature,
+                        max_tokens
+                    )
+                except Exception as e:
+                    print(f"⚠ Cloud model failed: {e}, falling back to local model")
+                    # Fallback to local model
+                    fallback_model = self.config.get('defaults', {}).get('llm', 'llama-3.1-8B')
+                    model_info = {
+                        'name': fallback_model,
+                        'type': 'local',
+                        'config': self.config['local_models'][fallback_model]
+                    }
+                    response = await self.chat_local(
+                        fallback_model,
+                        messages,
+                        temperature,
+                        max_tokens
+                    )
+            else:
+                raise ValueError(f"Unsupported model type: {model_info['type']}")
+        except Exception as e:
+            # Final fallback - simple response
+            response = f"I'm currently unable to process your request. Error: {str(e)}"
 
         return {
             'response': response,
