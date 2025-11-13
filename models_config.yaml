@@ -43,7 +43,7 @@ cloud_models:
     model_name: meta/llama-3.1-70b-instruct
     api_key_env: NVIDIA_API_KEY
     use_case: [advanced_reasoning, business, analytics, rag]
-    max_tokens: 4096
+    max_tokens: 8192
     temperature: 0.7
 
   llama-3.1-8B-cloud:
@@ -52,7 +52,7 @@ cloud_models:
     model_name: meta/llama-3.1-8b-instruct
     api_key_env: NVIDIA_API_KEY
     use_case: [reasoning, business, fast]
-    max_tokens: 4096
+    max_tokens: 8192
     temperature: 0.7
 
 # Multimodal Models
@@ -100,20 +100,20 @@ ocr_models:
 # Routing Rules
 routing:
   code:
-    - qwen-2.5-coder-32B
-    - llama-3.3-70B
+    - llama-3.1-70B-cloud
+    - llama-3.1-8B-cloud
 
   business:
-    - llama-3.3-70B
-    - llama-3.1-8B
+    - llama-3.1-70B-cloud
+    - llama-3.1-8B-cloud
 
   reasoning:
-    - llama-3.3-70B
-    - llama-3.1-8B
+    - llama-3.1-70B-cloud
+    - llama-3.1-8B-cloud
 
   fast:
-    - llama-3.1-8B
-    - mistral-7B
+    - llama-3.1-8B-cloud
+    - llama-3.1-70B-cloud
 
   vision:
     - nv-clip
@@ -127,8 +127,8 @@ routing:
 
 # Default Model Selection
 defaults:
-  llm: llama-3.3-70B
-  code: qwen-2.5-coder-32B
+  llm: llama-3.1-8B-cloud
+  code: llama-3.1-70B-cloud
   vision: nv-clip
   voice_input: whisper
   voice_output: piper-tts
