@@ -153,6 +153,7 @@ try {
     python -c "import gradio; print('  -> ✓ Gradio')"
     python -c "import chromadb; print('  -> ✓ ChromaDB')"
     python -c "import transformers; print('  -> ✓ Transformers')"
+    python -c "import nemo_agent_toolkit; print('  -> ✓ NeMo Agent Toolkit')" 2>$null
 } catch {
     Write-Host "  -> ⚠️ บาง modules ไม่พร้อม (อาจไม่สำคัญ)" -ForegroundColor Yellow
 }

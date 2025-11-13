@@ -44,6 +44,9 @@ pillow>=10.0.0
 # ===== NVIDIA Integration =====
 # For NV-CLIP and Nemotron cloud API (API key required)
 
+# NVIDIA NeMo Agent Toolkit (Agentic AI Framework)
+nemo-agent-toolkit>=1.0.0
+
 # ===== Local Models =====
 # Whisper STT
 faster-whisper>=0.10.0
