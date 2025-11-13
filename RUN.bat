@@ -53,12 +53,28 @@ if errorlevel 1 (
 )
 
 echo [4/4] Installing all dependencies...
-pip install --no-cache-dir fastapi uvicorn[standard] gradio chromadb langchain langchain-community transformers sentence-transformers faster-whisper openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil
-if errorlevel 1 (
-    echo [ERROR] Dependency installation failed
-    pause
-    exit /b 1
-)
+echo.
+echo [4a] Core packages...
+pip install --no-cache-dir fastapi uvicorn[standard] pyyaml python-dotenv aiohttp requests psutil
+
+echo [4b] AI packages...
+pip install --no-cache-dir openai anthropic mcp
+
+echo [4c] ML packages...
+pip install --no-cache-dir transformers sentence-transformers
+
+echo [4d] LangChain...
+pip install --no-cache-dir langchain langchain-community chromadb
+
+echo [4e] Media packages...
+pip install --no-cache-dir faster-whisper
+
+echo [4f] Gradio UI...
+pip install --no-cache-dir gradio
+
+echo.
+echo [*] Checking installations...
+python -c "import gradio; print('Gradio:', gradio.__version__)"
 
 echo.
 echo ================================================
