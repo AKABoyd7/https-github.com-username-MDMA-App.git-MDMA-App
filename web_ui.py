@@ -337,21 +337,89 @@ def get_system_status() -> str:
 def create_ui():
     """Create Gradio UI"""
 
+    # Custom NVIDIA-themed color scheme
+    # Green primary, Purple for NVIDIA elements, Dark gray background
+    custom_theme = gr.themes.Base(
+        primary_hue=gr.themes.colors.green,  # Green for primary elements
+        secondary_hue=gr.themes.colors.purple,  # Purple for NVIDIA
+        neutral_hue=gr.themes.colors.slate,  # Dark gray background
+    ).set(
+        body_background_fill="#1a1a1a",  # Very dark gray background
+        body_background_fill_dark="#0f0f0f",  # Almost black for dark mode
+        button_primary_background_fill="#10b981",  # Green buttons
+        button_primary_background_fill_hover="#059669",  # Darker green on hover
+        button_primary_text_color="white",
+        slider_color="#10b981",  # Green sliders
+        block_title_text_color="#10b981",  # Green titles
+        block_label_text_color="#d1d5db",  # Light gray labels
+        block_background_fill="#262626",  # Dark gray blocks
+        input_background_fill="#1f1f1f",  # Dark input backgrounds
+        input_border_color="#404040",  # Subtle borders
+    )
+
     with gr.Blocks(
         title="AlphaEdge AINV - Jareth2",
-        theme=gr.themes.Soft(),
+        theme=custom_theme,
         css="""
-        .gradio-container {font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
-        .header {text-align: center; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; margin-bottom: 20px;}
+        .gradio-container {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a !important;
+        }
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); /* NVIDIA Purple gradient */
+            color: white;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(124, 58, 237, 0.3);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .header p {
+            margin: 10px 0 5px 0;
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        .header small {
+            opacity: 0.8;
+        }
+        /* Green accents for buttons and interactive elements */
+        .primary {
+            background-color: #10b981 !important;
+            border-color: #10b981 !important;
+        }
+        .primary:hover {
+            background-color: #059669 !important;
+        }
+        /* NVIDIA branding elements */
+        .nvidia-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        /* Dark theme for all components */
+        .gr-box, .gr-form, .gr-input {
+            background-color: #262626 !important;
+            border-color: #404040 !important;
+        }
         """
     ) as demo:
 
         # Header
         gr.HTML("""
         <div class="header">
-            <h1>🤖 AlphaEdge AINV - Jareth2</h1>
+            <h1>🤖 AlphaEdge AINV - Jareth2 <span class="nvidia-badge">NVIDIA Powered</span></h1>
             <p>Enterprise AI Platform | The Interface of Freedom™</p>
-            <small>Copyright © 2025 AlphaEdge AINV</small>
+            <small>Copyright © 2025 AlphaEdge AINV | Powered by NVIDIA TensorRT & CUDA-X</small>
         </div>
         """)
 
