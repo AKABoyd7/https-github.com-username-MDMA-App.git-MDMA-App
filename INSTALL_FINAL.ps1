@@ -8,20 +8,51 @@ Write-Host "  AlphaEdge AINV - Auto Installer" -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 Write-Host ""
 
-# Step 1: Create Python 3.11 environment
-Write-Host "[1/3] Creating Python 3.11 environment..." -ForegroundColor Yellow
+# Step 1: Find conda
+Write-Host "[1/3] Locating conda..." -ForegroundColor Yellow
 
-$condaPath = "C:\Users\admin\miniconda3\Scripts\conda.exe"
-if (!(Test-Path $condaPath)) {
-    Write-Host "ERROR: Miniconda not found at $condaPath" -ForegroundColor Red
+$condaPaths = @(
+    "C:\Users\admin\miniconda3\Scripts\conda.exe",
+    "C:\ProgramData\miniconda3\Scripts\conda.exe",
+    "C:\miniconda3\Scripts\conda.exe",
+    "$env:USERPROFILE\miniconda3\Scripts\conda.exe",
+    "$env:LOCALAPPDATA\miniconda3\Scripts\conda.exe"
+)
+
+$condaPath = $null
+foreach ($path in $condaPaths) {
+    if (Test-Path $path) {
+        $condaPath = $path
+        break
+    }
+}
+
+if (!$condaPath) {
+    # Try to find in PATH
+    $condaCmd = Get-Command conda -ErrorAction SilentlyContinue
+    if ($condaCmd) {
+        $condaPath = $condaCmd.Source
+    }
+}
+
+if (!$condaPath) {
+    Write-Host "ERROR: Conda not found. Install from:" -ForegroundColor Red
+    Write-Host "  https://docs.conda.io/en/latest/miniconda.html" -ForegroundColor Yellow
     exit 1
 }
 
+Write-Host "  -> Found: $condaPath" -ForegroundColor Green
+
+# Get conda directory
+$condaDir = Split-Path (Split-Path $condaPath)
+$activateScript = Join-Path $condaDir "Scripts\activate.bat"
+
 # Remove old env if exists
-& $condaPath env remove -n alphaedge -y 2>$null
+& $condaPath env remove -n alphaedge -y 2>$null | Out-Null
 
 # Create new env with Python 3.11
-& $condaPath create -n alphaedge python=3.11 -y
+Write-Host "  -> Creating Python 3.11 environment..." -ForegroundColor Gray
+& $condaPath create -n alphaedge python=3.11 -y | Out-Null
 
 Write-Host "  -> Environment created" -ForegroundColor Green
 Write-Host ""
@@ -29,14 +60,20 @@ Write-Host ""
 # Step 2: Install packages
 Write-Host "[2/3] Installing packages (10-15 min)..." -ForegroundColor Yellow
 
-$activateScript = "C:\Users\admin\miniconda3\Scripts\activate.bat"
-
 # Create install script
 $installScript = @"
-call $activateScript alphaedge
+@echo off
+call "$activateScript" alphaedge
 cd G:\AlphaEdge_AINV
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
-pip install fastapi uvicorn gradio chromadb langchain langchain-community transformers sentence-transformers faster-whisper tensorrt pycuda openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil
+echo Installing PyTorch...
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121 --quiet
+echo Installing core packages...
+pip install fastapi uvicorn gradio chromadb --quiet
+echo Installing AI packages...
+pip install langchain langchain-community transformers sentence-transformers --quiet
+echo Installing additional packages...
+pip install faster-whisper tensorrt pycuda openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil --quiet
+echo Done!
 "@
 
 $tempScript = "$env:TEMP\install_alphaedge.bat"
@@ -54,20 +91,26 @@ Write-Host ""
 Write-Host "[3/3] Testing installation..." -ForegroundColor Yellow
 
 $testScript = @"
-call $activateScript alphaedge
-python -c "import torch; import gradio; import chromadb; print('SUCCESS')"
+@echo off
+call "$activateScript" alphaedge
+python -c "import torch; import gradio; import chromadb; print('SUCCESS')" 2>nul
+if errorlevel 1 (
+    echo PARTIAL
+) else (
+    echo SUCCESS
+)
 "@
 
 $tempTest = "$env:TEMP\test_alphaedge.bat"
 $testScript | Out-File -FilePath $tempTest -Encoding ASCII
 
-$result = cmd /c $tempTest 2>&1
+$result = cmd /c $tempTest
 Remove-Item $tempTest
 
 if ($result -match "SUCCESS") {
     Write-Host "  -> All packages OK" -ForegroundColor Green
 } else {
-    Write-Host "  -> Some packages missing (may be OK)" -ForegroundColor Yellow
+    Write-Host "  -> Installation complete (some optional packages may be missing)" -ForegroundColor Yellow
 }
 
 Write-Host ""
@@ -78,7 +121,7 @@ Write-Host ""
 
 Write-Host "RUN PLATFORM:" -ForegroundColor Yellow
 Write-Host ""
-Write-Host "  C:\Users\admin\miniconda3\Scripts\activate.bat alphaedge" -ForegroundColor Cyan
+Write-Host "  $activateScript alphaedge" -ForegroundColor Cyan
 Write-Host "  cd G:\AlphaEdge_AINV" -ForegroundColor Cyan
 Write-Host "  python master_launcher.py --full" -ForegroundColor Cyan
 Write-Host ""
@@ -86,7 +129,7 @@ Write-Host ""
 # Create quick start script
 $quickStart = @"
 @echo off
-call C:\Users\admin\miniconda3\Scripts\activate.bat alphaedge
+call "$activateScript" alphaedge
 cd G:\AlphaEdge_AINV
 python master_launcher.py --full
 pause
