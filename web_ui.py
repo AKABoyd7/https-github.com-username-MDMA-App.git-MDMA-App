@@ -337,20 +337,20 @@ def get_system_status() -> str:
 def create_ui():
     """Create Gradio UI"""
 
-    # Custom NVIDIA-themed color scheme
-    # Green primary, Purple for NVIDIA elements, Dark gray background
+    # Custom NVIDIA Green theme
+    # All green - NVIDIA Green everywhere, Dark gray background
     custom_theme = gr.themes.Base(
-        primary_hue=gr.themes.colors.green,  # Green for primary elements
-        secondary_hue=gr.themes.colors.purple,  # Purple for NVIDIA
+        primary_hue=gr.themes.colors.green,  # NVIDIA Green for everything
+        secondary_hue=gr.themes.colors.green,  # NVIDIA Green (no purple!)
         neutral_hue=gr.themes.colors.slate,  # Dark gray background
     ).set(
         body_background_fill="#1a1a1a",  # Very dark gray background
         body_background_fill_dark="#0f0f0f",  # Almost black for dark mode
-        button_primary_background_fill="#10b981",  # Green buttons
-        button_primary_background_fill_hover="#059669",  # Darker green on hover
+        button_primary_background_fill="#10b981",  # NVIDIA Green buttons
+        button_primary_background_fill_hover="#059669",  # Darker NVIDIA Green on hover
         button_primary_text_color="white",
-        slider_color="#10b981",  # Green sliders
-        block_title_text_color="#10b981",  # Green titles
+        slider_color="#10b981",  # NVIDIA Green sliders
+        block_title_text_color="#10b981",  # NVIDIA Green titles
         block_label_text_color="#d1d5db",  # Light gray labels
         block_background_fill="#262626",  # Dark gray blocks
         input_background_fill="#1f1f1f",  # Dark input backgrounds
@@ -368,11 +368,11 @@ def create_ui():
         .header {
             text-align: center;
             padding: 30px;
-            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); /* NVIDIA Purple gradient */
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%); /* NVIDIA Green gradient */
             color: white;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(124, 58, 237, 0.3);
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.4);
         }
         .header h1 {
             margin: 0;
@@ -395,10 +395,10 @@ def create_ui():
         .primary:hover {
             background-color: #059669 !important;
         }
-        /* NVIDIA branding elements */
+        /* NVIDIA branding elements - All Green */
         .nvidia-badge {
             display: inline-block;
-            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            background: linear-gradient(135deg, #10b981, #059669); /* NVIDIA Green */
             color: white;
             padding: 4px 12px;
             border-radius: 12px;
