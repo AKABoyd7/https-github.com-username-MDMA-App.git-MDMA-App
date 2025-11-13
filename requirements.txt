@@ -1,3 +1,8 @@
 langchain
 langgraph
 langchain-community
+torch
+transformers
+accelerate
+sentencepiece
+nvidia-ml-py
