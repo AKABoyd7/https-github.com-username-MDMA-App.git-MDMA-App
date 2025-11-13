@@ -1,39 +1,122 @@
 # AlphaEdge AINV - Multi-Model Configuration
 # Copyright © 2025 AlphaEdge AINV
 
-# Local LLM Models (LM Studio)
+# Local LLM Models (GGUF - G:\Models_Organized)
 local_models:
-  llama-3.3-70B:
-    path: /models/llama3-3-70B.Q4_K_M.gguf
-    engine: lm-studio
-    endpoint: http://localhost:1234/v1
-    use_case: [reasoning, general, business]
+  # Code Generation Models
+  deepseek-coder-local:
+    path: G:\Models_Organized\lmstudio-community\deepseek-coder
+    engine: gguf
+    model_type: gguf
+    use_case: [code, technical, debugging, completion]
+    max_tokens: 8192
+    temperature: 0.2
+    context_length: 16384
+
+  qwen2.5-coder-local:
+    path: G:\Models_Organized\lmstudio-community\qwen2.5-coder
+    engine: gguf
+    model_type: gguf
+    use_case: [code, technical, advanced_coding]
+    max_tokens: 8192
+    temperature: 0.2
+    context_length: 32768
+
+  qwen3-coder-local:
+    path: G:\Models_Organized\lmstudio-community\qwen3-coder
+    engine: gguf
+    model_type: gguf
+    use_case: [code, technical, advanced_coding, latest]
+    max_tokens: 8192
+    temperature: 0.2
+    context_length: 32768
+
+  codestral-local:
+    path: G:\Models_Organized\lmstudio-community\codestral
+    engine: gguf
+    model_type: gguf
+    use_case: [code, completion, fast_coding]
+    max_tokens: 8192
+    temperature: 0.2
+    context_length: 32768
+
+  # General Purpose Models
+  llama3.1-local:
+    path: G:\Models_Organized\lmstudio-community\llama3.1
+    engine: gguf
+    model_type: gguf
+    use_case: [reasoning, general, business, chat]
     max_tokens: 8192
     temperature: 0.7
+    context_length: 131072
 
-  qwen-2.5-coder-32B:
-    path: /models/qwen-2.5-coder-32B.Q5_K_M.gguf
-    engine: lm-studio
-    endpoint: http://localhost:1234/v1
-    use_case: [code, technical, debugging]
+  llama3.2-local:
+    path: G:\Models_Organized\lmstudio-community\llama3.2
+    engine: gguf
+    model_type: gguf
+    use_case: [reasoning, general, business, chat, latest]
     max_tokens: 8192
-    temperature: 0.3
-
-  llama-3.1-8B:
-    path: /models/llama3-1-8B.Q4_K_M.gguf
-    engine: lm-studio
-    endpoint: http://localhost:1234/v1
-    use_case: [fast, lightweight, everyday]
-    max_tokens: 4096
     temperature: 0.7
+    context_length: 131072
 
-  mistral-7B:
-    path: /models/mistral-7B.Q4_K_M.gguf
-    engine: lm-studio
-    endpoint: http://localhost:1234/v1
-    use_case: [fast, lightweight]
-    max_tokens: 4096
+  # Fast Inference Models
+  mistral-local:
+    path: G:\Models_Organized\lmstudio-community\mistral
+    engine: gguf
+    model_type: gguf
+    use_case: [fast, lightweight, general]
+    max_tokens: 8192
     temperature: 0.7
+    context_length: 32768
+
+  mistral-nemo-local:
+    path: G:\Models_Organized\lmstudio-community\Mistral-Nemo-Instruct-2407-GGUF
+    engine: gguf
+    model_type: gguf
+    use_case: [fast, lightweight, instruction_following]
+    max_tokens: 8192
+    temperature: 0.7
+    context_length: 128000
+
+  # Advanced Models
+  nemotron-local:
+    path: G:\Models_Organized\lmstudio-community\nemotron
+    engine: gguf
+    model_type: gguf
+    use_case: [reasoning, advanced, research]
+    max_tokens: 8192
+    temperature: 0.7
+    context_length: 32768
+
+  wizardlm2-local:
+    path: G:\Models_Organized\lmstudio-community\wizardlm2
+    engine: gguf
+    model_type: gguf
+    use_case: [reasoning, complex_tasks, instruction]
+    max_tokens: 8192
+    temperature: 0.7
+    context_length: 32768
+
+  # Flagship Models - Latest & Greatest!
+  qwen3-next-80b-local:
+    path: G:\Models_Organized\lmstudio-community\Qwen3-Next-80B-A3B-Instruct
+    engine: gguf
+    model_type: gguf
+    use_case: [advanced_reasoning, code, research, flagship, everything]
+    max_tokens: 16384
+    temperature: 0.7
+    context_length: 32768
+    notes: "Flagship model - most powerful local model available"
+
+  llama-3.3-nemotron-70b-local:
+    path: G:\Models_Organized\lmstudio-community\llama-3.3-nemotron
+    engine: gguf
+    model_type: gguf
+    use_case: [advanced_reasoning, research, nvidia_optimized, flagship]
+    max_tokens: 16384
+    temperature: 0.7
+    context_length: 131072
+    notes: "Meta Llama 3.3 70B + NVIDIA Nemotron - Latest hybrid flagship with 128K context!"
 
 # Cloud Models (NVIDIA)
 cloud_models:
@@ -97,22 +180,39 @@ ocr_models:
     use_case: [ocr, document_processing]
     language: [eng, tha]
 
-# Routing Rules
+# Routing Rules (Local-first with Cloud fallback)
 routing:
   code:
-    - llama-3.1-70B-cloud
+    - qwen3-next-80b-local       # 🏆 Flagship 80B model (best!)
+    - qwen3-coder-local          # Latest Qwen coder (32K context)
+    - qwen2.5-coder-local        # Qwen 2.5 coder (32K context)
+    - deepseek-coder-local       # DeepSeek coder (16K context)
+    - codestral-local            # Codestral (32K context)
+    - llama-3.1-70B-cloud        # Cloud fallback
     - llama-3.1-8B-cloud
 
   business:
-    - llama-3.1-70B-cloud
+    - qwen3-next-80b-local       # 🏆 Flagship 80B model (best!)
+    - llama3.2-local             # Latest Llama (128K context!)
+    - llama3.1-local             # Llama 3.1 (128K context)
+    - wizardlm2-local            # WizardLM2 (32K context)
+    - llama-3.1-70B-cloud        # Cloud fallback
     - llama-3.1-8B-cloud
 
   reasoning:
-    - llama-3.1-70B-cloud
+    - llama-3.3-nemotron-70b-local   # 🚀 NEW! Meta Llama 3.3 70B + NVIDIA (128K!)
+    - qwen3-next-80b-local           # 🏆 Qwen3 Next 80B (32K context)
+    - llama3.2-local                 # Latest Llama (128K context!)
+    - llama3.1-local                 # Llama 3.1 (128K context)
+    - nemotron-local                 # NVIDIA Nemotron (32K context)
+    - wizardlm2-local                # WizardLM2 (32K context)
+    - llama-3.1-70B-cloud            # Cloud fallback
     - llama-3.1-8B-cloud
 
   fast:
-    - llama-3.1-8B-cloud
+    - mistral-nemo-local         # Mistral Nemo (128K context!)
+    - mistral-local              # Mistral (32K context)
+    - llama-3.1-8B-cloud         # Cloud fallback
     - llama-3.1-70B-cloud
 
   vision:
@@ -125,10 +225,12 @@ routing:
   voice_output:
     - piper-tts
 
-# Default Model Selection
+# Default Model Selection (Local-first - Latest flagships!)
 defaults:
-  llm: llama-3.1-8B-cloud
-  code: llama-3.1-70B-cloud
+  llm: llama-3.3-nemotron-70b-local  # 🚀 Meta Llama 3.3 70B + NVIDIA (128K)
+  code: qwen3-next-80b-local         # 🏆 Qwen3 Next 80B (best for code)
+  reasoning: llama-3.3-nemotron-70b-local  # 🚀 Meta+NVIDIA 70B (128K)
+  fast: mistral-nemo-local           # Fast local model (128K context)
   vision: nv-clip
   voice_input: whisper
   voice_output: piper-tts

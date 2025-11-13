@@ -84,15 +84,65 @@ mkdir "%MODELS_DIR%\downloads" 2>nul
 echo ✓ Directories created
 echo.
 
-echo [Phase 4/5] Downloading Models (Optional)
+echo [Phase 4/5] Model Selection
 echo ================================================================
 echo.
 
-echo Available models:
+REM Check for existing models
+set EXISTING_MODELS_DIR=G:\Models_Organized\lmstudio-community
+if exist "%EXISTING_MODELS_DIR%" (
+    echo [*] Found existing models at %EXISTING_MODELS_DIR%
+    echo.
+    echo Choose model source:
+    echo   1. Use existing models from G:\Models_Organized (Recommended)
+    echo   2. Download new models from Hugging Face
+    echo   3. Skip model setup
+    echo.
+    choice /C 123 /N /M "Select option (1-3): "
+
+    if errorlevel 3 (
+        echo Skipping model setup
+        goto integration
+    )
+
+    if errorlevel 2 goto download_new
+
+    if errorlevel 1 (
+        echo.
+        echo [*] Using existing models...
+        echo.
+
+        REM List available models
+        echo Available models in G:\Models_Organized:
+        echo.
+        dir "%EXISTING_MODELS_DIR%" /b /ad
+        echo.
+
+        echo [*] Recommended models for TensorRT-LLM:
+        echo   - deepseek-coder (Code generation)
+        echo   - qwen2.5-coder / qwen3-coder (Advanced coding)
+        echo   - llama3.1 / llama3.2 (General purpose)
+        echo   - mistral / Mistral-Nemo-Instruct-2407-GGUF (Fast inference)
+        echo.
+
+        echo [INFO] These models will be automatically detected by the system
+        echo [INFO] TensorRT engines will be built on first use for 2-10x speedup
+        echo.
+
+        goto integration
+    )
+) else (
+    echo [*] No existing models found at %EXISTING_MODELS_DIR%
+    echo.
+)
+
+:download_new
+
+echo Available models to download:
 echo   1. Llama 3.1 8B  (~6 GB)  - Fast, recommended
 echo   2. Qwen 2.5 32B  (~25 GB) - Code generation
 echo   3. Llama 3.3 70B (~45 GB) - Most powerful
-echo   4. Skip for now
+echo   4. Skip download
 echo.
 
 choice /C 1234 /N /M "Select model to download (1-4): "
