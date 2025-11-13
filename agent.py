@@ -18,15 +18,21 @@ def call_model(state: AgentState):
 
 # Set up the model, assuming a local Ollama server is running
 # You can change the model name to whichever model you have available
-# Set up the model, assuming a local Ollama server is running
-# You can change the model name to whichever model you have available
+# Configure Ollama server URL (default: http://localhost:11434)
+ollama_base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+
 try:
-    model = ChatOllama(model="llama3")
+    model = ChatOllama(
+        model="llama3",
+        base_url=ollama_base_url
+    )
     # Ping the model to ensure it's available
     model.invoke("test")
 except Exception as e:
-    print(f"Failed to connect to Ollama. Please ensure Ollama is running and the 'llama3' model is available.")
+    print(f"Failed to connect to Ollama at {ollama_base_url}.")
+    print("Please ensure Ollama is running and the 'llama3' model is available.")
     print("You can download it by running 'ollama pull llama3'")
+    print(f"To use a different Ollama server, set OLLAMA_BASE_URL environment variable.")
     exit()
 
 # Define the graph
