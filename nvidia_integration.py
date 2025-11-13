@@ -19,7 +19,7 @@ class NVIDIANemotron:
     Supports: Nemotron-3 43B/22B for advanced reasoning
     """
 
-    def __init__(self, api_key: Optional[str] = None, model: str = "nvidia/nemotron-3-43b-instruct"):
+    def __init__(self, api_key: Optional[str] = None, model: str = "meta/llama-3.1-8b-instruct"):
         self.api_key = api_key or os.getenv("NVIDIA_API_KEY")
         if not self.api_key:
             raise ValueError("NVIDIA_API_KEY not found in environment")

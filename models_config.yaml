@@ -37,21 +37,21 @@ local_models:
 
 # Cloud Models (NVIDIA)
 cloud_models:
-  nemotron-3-43B:
+  llama-3.1-70B-cloud:
     engine: nvidia-cloud
     endpoint: https://integrate.api.nvidia.com/v1
-    model_name: nvidia/nemotron-3-43b-instruct
+    model_name: meta/llama-3.1-70b-instruct
     api_key_env: NVIDIA_API_KEY
     use_case: [advanced_reasoning, business, analytics, rag]
     max_tokens: 4096
     temperature: 0.7
 
-  nemotron-3-22B:
+  llama-3.1-8B-cloud:
     engine: nvidia-cloud
     endpoint: https://integrate.api.nvidia.com/v1
-    model_name: nvidia/nemotron-3-22b-instruct
+    model_name: meta/llama-3.1-8b-instruct
     api_key_env: NVIDIA_API_KEY
-    use_case: [reasoning, business]
+    use_case: [reasoning, business, fast]
     max_tokens: 4096
     temperature: 0.7
 
@@ -104,11 +104,11 @@ routing:
     - llama-3.3-70B
 
   business:
-    - nemotron-3-43B
+    - llama-3.1-70B-cloud
     - llama-3.3-70B
 
   reasoning:
-    - nemotron-3-43B
+    - llama-3.1-70B-cloud
     - llama-3.3-70B
 
   fast:
