@@ -1,6 +1,5 @@
 @echo off
 REM AlphaEdge AINV - Simple One-Click Launcher
-REM Just double-click this file after cloning
 
 echo ================================================
 echo   AlphaEdge AINV
@@ -26,10 +25,10 @@ if not exist "venv311" (
     call venv311\Scripts\activate.bat
 
     echo [2/3] Installing PyTorch...
-    pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121 --quiet
+    pip install --no-cache-dir torch torchvision --index-url https://download.pytorch.org/whl/cu121
 
     echo [3/3] Installing packages...
-    pip install fastapi uvicorn gradio chromadb langchain langchain-community transformers sentence-transformers faster-whisper tensorrt pycuda openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil --quiet
+    pip install --no-cache-dir fastapi uvicorn gradio chromadb langchain langchain-community transformers sentence-transformers faster-whisper tensorrt pycuda openai anthropic mcp pyyaml python-dotenv aiohttp requests numpy pillow psutil
 
     echo.
     echo Setup complete!
