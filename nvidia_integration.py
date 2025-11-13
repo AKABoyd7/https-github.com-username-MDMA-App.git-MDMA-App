@@ -7,7 +7,7 @@ Copyright © 2025 AlphaEdge AINV
 """
 import os
 import asyncio
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional, Union, AsyncIterator
 import aiohttp
 import base64
 from pathlib import Path
