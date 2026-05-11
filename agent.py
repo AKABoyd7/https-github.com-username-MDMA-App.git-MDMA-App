@@ -54,7 +54,12 @@ if __name__ == "__main__":
     config = {"configurable": {"thread_id": "user-thread"}}
 
     # Add a system message to set the context for the AI
-    system_message = SystemMessage(content="You are a helpful AI assistant.")
+    system_message = SystemMessage(
+        content=(
+            "You are a helpful AI assistant. Respond directly in plain text and do not "
+            "request or call tools, functions, or system checkups."
+        )
+    )
     app.update_state(config, {"messages": [system_message]})
 
     while True:
